@@ -1,1 +1,1 @@
-# Bankist-App
+# Minimalist Online Banking App
