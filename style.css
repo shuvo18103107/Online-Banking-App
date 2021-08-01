@@ -1,11 +1,6 @@
-
-
-* {
-  margin: 0;
-  padding: 0;
+.mainWrap {
   box-sizing: inherit;
 }
-
 html {
   font-size: 62.5%;
   box-sizing: border-box;
@@ -27,6 +22,7 @@ nav {
 }
 
 .welcome {
+  text-align: start;
   font-size: 1.9rem;
   font-weight: 500;
 }
@@ -36,7 +32,8 @@ nav {
 }
 
 .login {
-  display: flex;
+  text-align: end;
+  /* display: flex; */
 }
 
 .login__input {
@@ -90,7 +87,7 @@ nav {
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  opacity: 0;
+  /* opacity: 0; */
   transition: all 1s;
 }
 
@@ -120,10 +117,10 @@ nav {
 
 /* MOVEMENTS */
 .movements {
-  grid-row: 2 / span 3;
   background-color: #fff;
   border-radius: 1rem;
-  overflow: scroll;
+  overflow: auto;
+  height: 64vh;
 }
 
 .movements__row {
@@ -165,7 +162,6 @@ nav {
 
 /* SUMMARY */
 .summary {
-  grid-row: 5 / 6;
   display: flex;
   align-items: baseline;
   padding: 0 0.3rem;
@@ -204,6 +200,7 @@ nav {
 
 /* OPERATIONS */
 .operation {
+  width: 28vw;
   border-radius: 1rem;
   padding: 3rem 4rem;
   color: #333;
@@ -290,4 +287,126 @@ h2 {
 
 .timer {
   font-weight: 600;
+}
+
+/* Responsive */
+@media screen and (max-width: 767px) and (min-width: 576px) {
+  .welcome {
+    text-align: end !important;
+  }
+}
+@media screen and (max-width: 575px) and (min-width: 100px) {
+  .welcome {
+    text-align: end !important;
+  }
+  .login {
+    text-align: center !important;
+  }
+}
+@media screen and (max-width: 992px) and (min-width: 569px) {
+  .movementDiv {
+    margin-left: 9vw !important;
+    margin-bottom: 5vh !important;
+  }
+  .operation {
+    width: 57vw !important;
+    margin-left: 10vw !important;
+  }
+  .operationDiv {
+    margin-left: 16vw !important;
+  }
+  .balenceVal {
+    text-align: end !important;
+  }
+  .logout-timer {
+    text-align: center !important;
+    margin-right: 20vw !important;
+  }
+}
+@media screen and (max-width: 569px) and (min-width: 539px) {
+  .movementDiv {
+    /* margin-left: 9vw !important; */
+    margin-bottom: 5vh !important;
+  }
+  .operation {
+    width: 68vw !important;
+    margin-left: -5vw !important;
+  }
+  .operationDiv {
+    margin-left: 16vw !important;
+  }
+  .balenceVal {
+    text-align: end !important;
+  }
+  .logout-timer {
+    text-align: center !important;
+    margin-right: 20vw !important;
+  }
+}
+@media screen and (max-width: 539px) and (min-width: 450px) {
+  .movementDiv {
+    /* margin-left: 9vw !important; */
+    margin-bottom: 5vh !important;
+  }
+  .operation {
+    width: 68vw !important;
+    margin-left: -9vw !important;
+  }
+  .operationDiv {
+    margin-left: 16vw !important;
+  }
+  .balenceVal {
+    text-align: end !important;
+  }
+  .summary__value {
+    font-size: 1.5rem !important;
+  }
+  .balance__value {
+    font-size: 3.5rem !important;
+  }
+  .logout-timer {
+    text-align: center !important;
+    margin-right: 34vw !important;
+  }
+}
+@media screen and (max-width: 450px) and (min-width: 100px) {
+  .summary__label {
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    margin-right: 0.3rem !important;
+  }
+
+  .movementDiv {
+    /* margin-left: 9vw !important; */
+    margin-bottom: 5vh !important;
+  }
+  .movements {
+    /* margin-left: 5vw; */
+    width: 89vw !important;
+  }
+  .operation {
+    width: 79vw !important;
+    margin-left: -15vw !important;
+  }
+  .operationDiv {
+    margin-left: 16vw !important;
+  }
+  .balenceVal {
+    text-align: end !important;
+  }
+  .summary__value {
+    font-size: 1.5rem !important;
+  }
+  .balance__value {
+    font-size: 3.5rem !important;
+  }
+  .logout-timer {
+    text-align: center !important;
+    margin-right: 34vw !important;
+  }
+  .btn--sort {
+    font-size: 1.2rem !important;
+    margin-left: -4vw !important;
+  }
 }
