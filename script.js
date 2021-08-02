@@ -83,3 +83,29 @@ const displayMovements = function (movements) {
 }
 
 displayMovements(account1.movements)
+
+const TktoUsd = 0.012;
+
+const USDmovements = account1.movements.map(value => value * TktoUsd
+
+    //     function (valu, i) {
+    //     //ekta new array return kore map each iteration e condition apply er pasapai
+
+    //     // return valu * TktoUsd;
+    //     // return 23 ba jai ditam same position e 23 add kore ekta rray return korto
+    // }
+
+
+)
+
+console.log(USDmovements);
+
+// using map method another example
+
+const movementsDesc = account1.movements.map((value, i) =>
+
+    `Movement ${i + 1}: You ${value > 0 ? 'deposited' : 'withdraw'} ${Math.abs(value)}`
+
+)
+
+console.log(movementsDesc);
