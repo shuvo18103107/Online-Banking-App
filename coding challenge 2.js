@@ -18,22 +18,29 @@ Test data:
 § Data 2: [16, 6, 10, 5, 6, 1, 4]
 */
 
-const calcAverageHumanAge = function (dogArray) {
-    const humanAge = dogArray.map(
+// const calcAverageHumanAge = function (dogArray) {
+//     const humanAge = dogArray.map(
 
-        v => v <= 2 ? 2 * v : 16 + v * 4);
-    console.log(humanAge);
+//         v => v <= 2 ? 2 * v : 16 + v * 4);
+//     console.log(humanAge);
 
-    const adultDogs = humanAge.filter(v => v >= 18);
-    console.log(adultDogs);
+//     const adultDogs = humanAge.filter(v => v >= 18);
+//     console.log(adultDogs);
 
-    const avgofaduktDogs = adultDogs.reduce((acc, v, i, arr) => acc + v, 0) / adultDogs.length;
+//     const avgofaduktDogs = adultDogs.reduce((acc, v, i, arr) => acc + v, 0) / adultDogs.length;
 
 
-    return avgofaduktDogs;
+//     return avgofaduktDogs;
 
-}
+// }
+
+//using chaining approach
+
+const calcAverageHumanAge =
+    dogArray => dogArray.map(v => v <= 2 ? 2 * v : 16 + v * 4).filter(v => v >= 18).reduce((acc, v, i, arr) => acc + v / arr.length, 0)
+
 
 const age1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 const age2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 console.log(age1, age2);
+
