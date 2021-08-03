@@ -98,7 +98,7 @@ const USDmovements = account1.movements.map(value => value * TktoUsd
 
 )
 
-console.log(USDmovements);
+// console.log(USDmovements);
 
 // using map method another example
 
@@ -108,4 +108,43 @@ const movementsDesc = account1.movements.map((value, i) =>
 
 )
 
-console.log(movementsDesc);
+// console.log(movementsDesc);
+
+// compute user name
+// const user = 'Mohammad Ali Shuvo' // MAS
+
+
+// const shortForm = [];
+// userNAme.forEach(function (v, i) {
+//     shortForm.push(v[0].toUpperCase());
+
+// })
+// console.log(shortForm);
+
+// console.log(shortForm.join(''));
+
+// user NAme compute function
+const createUserName = function (accs) {
+
+
+    accs.forEach(function (acc) {
+        // console.log(acc);
+        //create a new property;
+
+        // side effects - do some work without returning anything
+
+        acc.userName = acc.owner.toLowerCase().split(" ").map(v => v[0]).join('')
+
+
+
+
+    })
+
+
+
+}
+createUserName(accounts)
+// console.log(createUserName(accounts));
+console.log(accounts);
+
+
