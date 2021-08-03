@@ -83,10 +83,19 @@ const displayMovements = function (movements) {
 }
 
 displayMovements(account1.movements)
+//calculate movement balence and print it
+
+const calcPrintBalence = function (mov) {
+    const totalBalence = mov.reduce((acc, currValue, i, arr) => acc + currValue, 0)
+
+    labelBalance.textContent = `${totalBalence} Tk`;
+}
+calcPrintBalence(account1.movements)
 
 const TktoUsd = 0.012;
 
-const USDmovements = account1.movements.map(value => value * TktoUsd
+const USDmovements = account1.movements.map(
+    value => value * TktoUsd
 
     //     function (valu, i) {
     //     //ekta new array return kore map each iteration e condition apply er pasapai
@@ -147,7 +156,7 @@ createUserName(accounts)
 // console.log(createUserName(accounts));
 console.log(accounts);
 
-
+//filter method
 const deposite = account1.movements.filter(function (v) {
 
     return v >= 0;
@@ -160,3 +169,27 @@ const withdraw = account1.movements.filter(function (v) {
 })
 console.log(withdraw);
 
+// reduce method
+//accumulator --> snowball
+// console.log(account1.movements);
+// const totalBalence = account1.movements.reduce((acc, currValue, i, arr) => acc + currValue, 0)
+// console.log(acc, currValue);
+//reduce method e ( accumulator(current sum of all the previous value) ,curren
+
+//initial value of accumulator
+
+
+// console.log(totalBalence);
+
+
+//maximum/minimum value from movements 
+
+const maximumVal = account1.movements.reduce(
+    function (acc, v, i) {
+
+        return acc > v ? acc : v
+
+
+    }, account1.movements[0]
+)
+console.log(maximumVal);
