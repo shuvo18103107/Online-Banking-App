@@ -49,4 +49,6 @@ const checkDogs = function (dogsJulia, dogsKate) {
     })
 }
 checkDogs(juliyaDog, katesDog)
+
 // checkDogs(katesDog)
+
