@@ -148,3 +148,15 @@ createUserName(accounts)
 console.log(accounts);
 
 
+const deposite = account1.movements.filter(function (v) {
+
+    return v >= 0;
+})
+console.log(deposite);
+
+const withdraw = account1.movements.filter(function (v) {
+
+    return v < 0;
+})
+console.log(withdraw);
+
