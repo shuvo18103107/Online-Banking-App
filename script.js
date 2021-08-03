@@ -67,35 +67,61 @@ const displayMovements = function (movements) {
     // console.log(containerMovements.innerHTML);
     containerMovements.innerHTML = '';
     movements.forEach(function (mov, i) {
-        const type = mov > 0 ? 'deposit' : 'withdrawal'
+        const type = mov > 0 ? 'deposit' : 'withdrawal';
 
         const html = `<div class="movements__row">
-            <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+            <div class="movements__type movements__type--${type}">${i + 1
+            } ${type}</div>
             <div class="movements__date"></div> 
             <div class="movements__value">${mov}</div>
         </div>`;
 
         containerMovements.insertAdjacentHTML('afterbegin', html);
         //using beforeend create each new element after the previous one, in inverted way
-    })
+    });
     // console.log(containerMovements.innerHTML);
+};
 
-}
-
-displayMovements(account1.movements)
+displayMovements(account1.movements);
 //calculate movement balence and print it
 
 const calcPrintBalence = function (mov) {
-    const totalBalence = mov.reduce((acc, currValue, i, arr) => acc + currValue, 0)
+    const totalBalence = mov.reduce(
+        (acc, currValue, i, arr) => acc + currValue,
+        0
+    );
 
     labelBalance.textContent = `${totalBalence} Tk`;
+};
+calcPrintBalence(account1.movements);
+
+// calculate summary 
+
+const calcDisplaySummary = function (movement) {
+    const incomes = movement.filter(v => v > 0).reduce((acc, v) => acc + v, 0)
+    labelSumIn.textContent = `${incomes}৳`;
+    const out = movement.filter(v => v < 0).reduce((acc, v) => acc + v, 0)
+    labelSumOut.textContent = `${Math.abs(out)}৳`;
+
+    const interest = movement.filter(v => v > 0).map(v => v * 1.2 / 100).filter(v => v >= 1).reduce((acc, v) => acc + v, 0)
+    labelSumInterest.textContent = `${interest}৳`;
 }
-calcPrintBalence(account1.movements)
+
+calcDisplaySummary(account1.movements)
+
+
+
+
+
+
+
+
+
 
 const TktoUsd = 0.012;
 
 const USDmovements = account1.movements.map(
-    value => value * TktoUsd
+    (value) => value * TktoUsd
 
     //     function (valu, i) {
     //     //ekta new array return kore map each iteration e condition apply er pasapai
@@ -103,25 +129,23 @@ const USDmovements = account1.movements.map(
     //     // return valu * TktoUsd;
     //     // return 23 ba jai ditam same position e 23 add kore ekta rray return korto
     // }
-
-
-)
+);
 
 // console.log(USDmovements);
 
 // using map method another example
 
-const movementsDesc = account1.movements.map((value, i) =>
-
-    `Movement ${i + 1}: You ${value > 0 ? 'deposited' : 'withdraw'} ${Math.abs(value)}`
-
-)
+const movementsDesc = account1.movements.map(
+    (value, i) =>
+        `Movement ${i + 1}: You ${value > 0 ? 'deposited' : 'withdraw'} ${Math.abs(
+            value
+        )}`
+);
 
 // console.log(movementsDesc);
 
 // compute user name
 // const user = 'Mohammad Ali Shuvo' // MAS
-
 
 // const shortForm = [];
 // userNAme.forEach(function (v, i) {
@@ -134,39 +158,32 @@ const movementsDesc = account1.movements.map((value, i) =>
 
 // user NAme compute function
 const createUserName = function (accs) {
-
-
     accs.forEach(function (acc) {
         // console.log(acc);
         //create a new property;
 
         // side effects - do some work without returning anything
 
-        acc.userName = acc.owner.toLowerCase().split(" ").map(v => v[0]).join('')
-
-
-
-
-    })
-
-
-
-}
-createUserName(accounts)
+        acc.userName = acc.owner
+            .toLowerCase()
+            .split(' ')
+            .map((v) => v[0])
+            .join('');
+    });
+};
+createUserName(accounts);
 // console.log(createUserName(accounts));
 console.log(accounts);
 
 //filter method
 const deposite = account1.movements.filter(function (v) {
-
     return v >= 0;
-})
+});
 console.log(deposite);
 
 const withdraw = account1.movements.filter(function (v) {
-
     return v < 0;
-})
+});
 console.log(withdraw);
 
 // reduce method
@@ -178,18 +195,21 @@ console.log(withdraw);
 
 //initial value of accumulator
 
-
 // console.log(totalBalence);
 
+//maximum/minimum value from movements
 
-//maximum/minimum value from movements 
-
-const maximumVal = account1.movements.reduce(
-    function (acc, v, i) {
-
-        return acc > v ? acc : v
-
-
-    }, account1.movements[0]
-)
+const maximumVal = account1.movements.reduce(function (acc, v, i) {
+    return acc > v ? acc : v;
+}, account1.movements[0]);
 console.log(maximumVal);
+
+//the magic of chainning method
+
+const totalDepositUSD = account1.movements
+    .filter((mov) => mov > 0)
+    //   .map((mov,i,arr) => mov * TktoUsd) //in case of debugging we can use arr argument
+    .map((mov, i, arr) => mov * TktoUsd)
+    .reduce((acc, v) => acc + v, 0);
+
+console.log(totalDepositUSD);
