@@ -26,7 +26,7 @@ const account3 = {
 };
 
 const account4 = {
-    owner: 'Abdullah',
+    owner: 'John Doe',
     movements: [430, 1000, 700, 50, 90],
     interestRate: 1,
     pin: 4444,
@@ -82,7 +82,7 @@ const displayMovements = function (movements) {
     // console.log(containerMovements.innerHTML);
 };
 
-displayMovements(account1.movements);
+
 //calculate movement balence and print it
 
 const calcPrintBalence = function (mov) {
@@ -91,23 +91,21 @@ const calcPrintBalence = function (mov) {
         0
     );
 
-    labelBalance.textContent = `${totalBalence} Tk`;
+    labelBalance.textContent = `${totalBalence}৳`;
 };
-calcPrintBalence(account1.movements);
 
 // calculate summary 
 
-const calcDisplaySummary = function (movement) {
-    const incomes = movement.filter(v => v > 0).reduce((acc, v) => acc + v, 0)
+const calcDisplaySummary = function (acc) {
+    const incomes = acc.movements.filter(v => v > 0).reduce((acc, v) => acc + v, 0)
     labelSumIn.textContent = `${incomes}৳`;
-    const out = movement.filter(v => v < 0).reduce((acc, v) => acc + v, 0)
+    const out = acc.movements.filter(v => v < 0).reduce((acc, v) => acc + v, 0)
     labelSumOut.textContent = `${Math.abs(out)}৳`;
-
-    const interest = movement.filter(v => v > 0).map(v => v * 1.2 / 100).filter(v => v >= 1).reduce((acc, v) => acc + v, 0)
+    const intRate = acc.interestRate / 100;
+    const interest = acc.movements.filter(v => v > 0).map(v => v * intRate).filter(v => v >= 1).reduce((acc, v) => acc + v, 0)
     labelSumInterest.textContent = `${interest}৳`;
 }
 
-calcDisplaySummary(account1.movements)
 
 
 
@@ -213,3 +211,56 @@ const totalDepositUSD = account1.movements
     .reduce((acc, v) => acc + v, 0);
 
 console.log(totalDepositUSD);
+
+
+//find method 
+//retrieve first element from the array based on condition
+
+const firstwithDraw = account1.movements.find(v => v < 0);
+console.log(firstwithDraw);
+
+const account = accounts.find(v => v.owner === 'Mohammad Ali Shuvo')
+
+console.log(account);
+//same functionality using for of loop
+// for (const acc of accounts) {
+//     if (acc.owner === 'Mohammad Ali Shuvo') {
+//         console.log(acc);
+//     }
+// }
+let currentAccount;
+//login functionality
+
+btnLogin.addEventListener('click', function (e) {
+    //prevent from form submitting
+    e.preventDefault();
+    // console.log('Login');
+
+    currentAccount = accounts.find(v => v.userName === inputLoginUsername.value)
+    console.log(currentAccount);
+
+    if (currentAccount?.pin === Number(inputLoginPin.value)) {
+
+
+        console.log(`login successfull`);
+
+        inputLoginUsername.value = inputLoginPin.value = "";
+        //inputPin looses its focus by using blur
+        inputLoginPin.blur();
+        //display UI and welcome message
+        labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]}`;
+
+        containerApp.style.opacity = 100;
+
+
+        //Display movements 
+        displayMovements(currentAccount.movements);
+
+        //Display balence
+        calcPrintBalence(currentAccount.movements);
+
+        //Display summary
+        calcDisplaySummary(currentAccount)
+    }
+})
+
