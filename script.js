@@ -85,13 +85,15 @@ const displayMovements = function (movements) {
 
 //calculate movement balence and print it
 
-const calcPrintBalence = function (mov) {
-    const totalBalence = mov.reduce(
+const calcPrintBalence = function (acc) {
+    acc.balence = acc.movements.reduce(
         (acc, currValue, i, arr) => acc + currValue,
         0
     );
 
-    labelBalance.textContent = `${totalBalence}৳`;
+
+
+    labelBalance.textContent = `${acc.balence}৳`;
 };
 
 // calculate summary 
@@ -213,6 +215,27 @@ const totalDepositUSD = account1.movements
 console.log(totalDepositUSD);
 
 
+// Update The UI
+const UpdateUi = function (currAcc) {
+    //Display movements 
+    displayMovements(currAcc.movements);
+
+    //Display balence
+    calcPrintBalence(currAcc);
+
+    //Display summary
+    calcDisplaySummary(currAcc)
+}
+
+
+
+
+
+
+
+
+
+
 //find method 
 //retrieve first element from the array based on condition
 
@@ -253,14 +276,50 @@ btnLogin.addEventListener('click', function (e) {
         containerApp.style.opacity = 100;
 
 
-        //Display movements 
-        displayMovements(currentAccount.movements);
-
-        //Display balence
-        calcPrintBalence(currentAccount.movements);
-
-        //Display summary
-        calcDisplaySummary(currentAccount)
+        UpdateUi(currentAccount)
     }
 })
+
+
+//Transfer Money 
+
+btnTransfer.addEventListener('click', function (e) {
+    e.preventDefault();
+    // console.log(currentAccount);
+    const amount = Number(inputTransferAmount.value);
+    // console.log(inputTransferTo.value);
+
+    const reciverAcc = accounts.find(v => v.userName === inputTransferTo.value);
+    console.log(amount, reciverAcc);
+
+    inputTransferTo.value = inputTransferAmount.value = "";
+
+    // console.log(amount, TransUserName);
+    if (reciverAcc && currentAccount.balence >= amount && amount > 0 && reciverAcc.userName != currentAccount.userName) {
+        //withdraw from sender at first
+        console.log('Transfer valid');
+        currentAccount.movements.push(-amount);
+        console.log(currentAccount.movements);
+
+        //add deposite to the reciever account
+        reciverAcc.movements.push(amount)
+        console.log(reciverAcc.movements);
+        UpdateUi(currentAccount);
+    }
+    else {
+
+        // notification dekhabo pore 
+        console.log('You have not sufficient money');
+    }
+
+
+
+    // add deposite to the transfer user account
+
+
+
+
+})
+
+
 
