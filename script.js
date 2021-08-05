@@ -321,6 +321,29 @@ btnTransfer.addEventListener('click', function (e) {
 
 })
 
+//Request Loan Functionality using some method
+// we get loan if atleast 1 deposite and 10% of loan amount exist on my balence
+
+btnLoan.addEventListener('click', function (e) {
+    e.preventDefault();
+    const amount = Number(inputLoanAmount.value)
+    if (amount > 0 && currentAccount.movements.some(v => v >= amount * .1)) {
+        console.log(`You are eligible for loan`);
+
+        currentAccount.movements.push(amount);
+        console.log(currentAccount.movements);
+
+        UpdateUi(currentAccount);
+        inputLoanAmount.value = '';
+        inputLoanAmount.blur();
+    }
+    else {
+        //notification FIXME
+        console.log(`not eligible`);
+    }
+
+})
+
 
 // close account functionality  using find index method
 // find index same as find but it return only index not whole thing
@@ -352,3 +375,27 @@ btnClose.addEventListener('click', function (e) {
 })
 
 
+// include method - we can use include method if a certain array value exist on the array includes return true
+//includes only test with value(equality ) not check condition
+console.log(account1.movements.includes(200));
+// to apply condition and check a certain property exist on the array or not usinng some method
+
+//some method to check any deposite exist in the array or not
+const anyDeposite = account1.movements.some(v => v > 0);
+console.log(anyDeposite);
+const above5Thousands = account1.movements.some(v => v > 5000);
+console.log(above5Thousands);
+//every method
+
+//same as some but main diff is , in every method if all the element satisfy the condition then return true
+
+console.log(account1.movements.every(v => v > 0));
+//array te specific condition diya search deowar khetre some useful , r jodi emn hoi je proti ta value same condition pass korbe taile every
+console.log(account1.movements.some(v => v > 0));
+
+//separate call back
+
+const depositeVal = v => v > 0;
+console.log(account1.movements.every(depositeVal));
+console.log(account1.movements.some(depositeVal));
+console.log(account1.movements.filter(depositeVal));
