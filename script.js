@@ -248,6 +248,7 @@ btnLogin.addEventListener('click', function (e) {
     // console.log('Login');
 
     currentAccount = accounts.find(
+        //eikhane filter use koiraow specific object paitam kintu filter new array banaiya tr vitor object take rakhbe kintu find direct element take return kore
         (v) => v.userName === inputLoginUsername.value
     );
     console.log(currentAccount);
@@ -475,7 +476,6 @@ console.log(account1.movements);
 
 console.log(account1.movements.slice());
 
-
 // More ways to creatring and filling array
 //empty arrays + fill methods
 const arrFill = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -487,7 +487,7 @@ console.log(x);
 // x.fill(5);
 
 //just like slice we can set the beginand end parameter
-x.fill(1, 3, 5)
+x.fill(1, 3, 5);
 console.log(x);
 //.fill(set property,start index,endindexconsiderlength like)
 arrFill.fill(23, 1, 8);
@@ -501,26 +501,29 @@ console.log(arrFill);
 const dynamicArr = Array.from({ length: 7 }, () => 1);
 console.log(dynamicArr);
 
-// rather than create array and thn fill use Array.from 
+// rather than create array and thn fill use Array.from
 
 const ar = Array.from({ length: 7 }, (_, i) => i + 1);
 console.log(ar);
-const arrRandom = Array.from({ length: 100 }, (_, i) => Math.floor(Math.random() * 6) + 1);
+const arrRandom = Array.from(
+    { length: 100 },
+    (_, i) => Math.floor(Math.random() * 6) + 1
+);
 
 console.log(arrRandom);
 //practical example of array.from
 
-//get the movements from the ui and calculate it 
+//get the movements from the ui and calculate it
 // dom element  pick kore array te store korte pari
 
 labelBalance.addEventListener('click', function () {
-    const movemntUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('৳', '')));
+    const movemntUI = Array.from(
+        document.querySelectorAll('.movements__value'),
+        (el) => Number(el.textContent.replace('৳', ''))
+    );
     //another way without using from method just use spread operator
-    const moveUi2 = [...document.querySelectorAll('.movements__value')]
+    const moveUi2 = [...document.querySelectorAll('.movements__value')];
 
     console.log(moveUi2);
     console.log(movemntUI);
-
-
-})
-
+});
