@@ -63,10 +63,23 @@ const inputClosePin = document.querySelector('.form__input--pin ');
 //display each movements on the list
 
 // recieve a movement array
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
     // console.log(containerMovements.innerHTML);
     containerMovements.innerHTML = '';
-    movements.forEach(function (mov, i) {
+
+    // sorting functionality
+    // orginal mov array ke sort na kore shallow copy er upor kaj korbo
+    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+
+
+
+
+
+
+
+
+
+    movs.forEach(function (mov, i) {
         const type = mov > 0 ? 'deposit' : 'withdrawal';
 
         const html = `<div class="movements__row">
@@ -81,6 +94,17 @@ const displayMovements = function (movements) {
     });
     // console.log(containerMovements.innerHTML);
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 //calculate movement balence and print it
@@ -374,6 +398,20 @@ btnClose.addEventListener('click', function (e) {
     inputClosePin.blur();
 })
 
+let sorted = false;
+//sort functionality
+btnSort.addEventListener('click', function (e) {
+
+    e.preventDefault();
+    displayMovements(currentAccount.movements, !sorted)
+
+    sorted = !sorted;
+})
+
+
+
+
+
 
 // include method - we can use include method if a certain array value exist on the array includes return true
 //includes only test with value(equality ) not check condition
@@ -432,3 +470,53 @@ const totalBalence2 = accounts.flatMap(v => v.movements).flat().reduce((acc, v) 
 console.log(totalBalence2);
 
 //flatmap is one level deep [[]] but if we want to go more depper we have to go with flat
+
+
+
+//Short method
+//String
+const owners = ['shuvo', 'kamrul', 'noushad', 'adam', 'martha  '];
+console.log(owners.sort());
+//sort method mutated the orginal array
+console.log(owners);
+
+//Numbers
+
+//sort work on string not number
+console.log(account1.movements);
+// console.log(account1.movements.sort());
+//sort callback function rule
+//return <0 a,b //descending keep order
+//return >0 b,a //ascending switch order
+// account1.movements.sort((a, b) => {
+//     //imagine a and b are two consecutive numbers in the array
+//     //lets short in ascending order (small->large)   -400 , so we have  to switch , we have to return something>0
+
+//     if (a > b) {
+//         return 1; //switch order
+//     }
+//     if (b > a) {
+//         return -1; //keep order
+//     }
+// })
+//ascending shorter way
+// account1.movements.sort((a, b) => a - b)
+
+// console.log(account1.movements);
+// descending order(large-small)
+// account1.movements.sort((a, b) => {
+
+//     if (a > b) {
+//         return -1; //keep order
+//     }
+//     if (b > a) {
+//         return 1; //switch order
+//     }
+
+// })
+// account1.movements.sort((a, b) => b - a)
+// console.log(account1.movements);
+
+
+console.log(account1.movements.slice());
+
