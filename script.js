@@ -585,3 +585,72 @@ console.log(Number.isFinite(+'20x'));
 console.log(Number.isFinite(23 / 0));
 console.log(Number.isInteger(23.0));
 console.log(Number.isInteger(23.0 / 0));
+
+//Remainder Operator
+// simply returns a remainder from a division
+console.log(5 % 2);
+console.log(8 % 3);
+
+// it is useful to checking even odd
+console.log(5 % 2);
+console.log(6 % 2);
+const isEven = n => n % 2 === 0;
+
+console.log(isEven(8));
+console.log(isEven(23));
+console.log(isEven(15));
+//nodelist to array convert using arrayform
+console.log([...document.querySelectorAll('.movements__row')]);
+
+// labelBalance.addEventListener('click', function () {
+//     Array.from(document.querySelectorAll('.movements__row')).forEach(
+//         function (v, i) {
+//             //0 2 4 6 8
+//             if (i % 2 === 0) {
+//                 v.style.backgroundColor = 'orangered'
+//             }
+//             if (i % 3 === 0) {
+//                 // 0 3 6 9 12
+//                 v.style.backgroundColor = 'blue'
+//             }
+
+//         }
+//     )
+// })
+
+//BigINT - special type of int introduce in es2020
+// numbers are represent in js 64 bit(53 store number rest sign and decimal point)
+console.log(2 ** 53 - 1); //buggest number that js can safely represent
+console.log(Number.MAX_SAFE_INTEGER);
+//unsafe numbers but some unsafe num still can be represent
+console.log(2 ** 53 + 1);
+console.log(2 ** 53 + 2);
+console.log(2 ** 53 + 3);
+console.log(2 ** 53 + 4);
+console.log(2 ** 53 + 5);
+
+console.log((2 ** 89 - 1));
+//suppose we get a large number from database or a web api then for representation we can use BigInt
+console.log(4589745213698521452136974589632145n);
+//operation use case of bigINT
+console.log(100000n + 500000n);
+console.log(100048478123654789412257999999999912478515n * 100000000000n);
+//big int never work with normal num
+const huge = 444444445799999999999n;
+const num = 23;
+// console.log(huge * num); //show error
+console.log(huge * BigInt(num));
+//math operation also not work in bigInt
+// console.log(Math.sqrt(huge)); //error
+//but in comparison we can work with bigInt and normal num
+// exception
+console.log(huge > num); //true
+console.log(huge === num);//cg one is bigint and another one is num so return false
+console.log(20n == '20');
+
+//string e big int use korle big int string e convert hoi
+console.log(huge + 'Is really big');
+
+//Division
+console.log(10 / 3);// normally 3.33333333333
+console.log(10n / 3n);// but in bigint cut the decimal and return the closes 3n
