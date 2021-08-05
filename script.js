@@ -58,7 +58,7 @@ const inputTransferTo = document.querySelector('.form__input--to');
 const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
-const inputClosePin = document.querySelector('.form__input-- ');
+const inputClosePin = document.querySelector('.form__input--pin ');
 
 //display each movements on the list
 
@@ -321,5 +321,34 @@ btnTransfer.addEventListener('click', function (e) {
 
 })
 
+
+// close account functionality  using find index method
+// find index same as find but it return only index not whole thing
+
+btnClose.addEventListener('click', function (e) {
+
+    e.preventDefault();
+    console.log(inputClosePin.value);
+
+
+    if (inputCloseUsername.value === currentAccount.userName && Number(inputClosePin.value) === currentAccount.pin) {
+
+        const clsAccUser = accounts.findIndex(v => v.userName === inputCloseUsername.value)
+        //indexof o kora jai but indexof findindex er moto complex query kora jai na just array te data thakle kaj kore like indexof(23)
+        accounts.splice(clsAccUser, 1)
+
+        // hide UI
+        containerApp.style.opacity = 0;
+        console.log(`Account close successfull`);
+
+        console.log(accounts);
+    }
+    else {
+        console.log(`please provide valid username`);
+    }
+
+    inputCloseUsername.value = inputClosePin.value = "";
+    inputClosePin.blur();
+})
 
 
