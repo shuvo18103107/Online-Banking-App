@@ -399,3 +399,36 @@ const depositeVal = v => v > 0;
 console.log(account1.movements.every(depositeVal));
 console.log(account1.movements.some(depositeVal));
 console.log(account1.movements.filter(depositeVal));
+
+//flat and flat map
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+//sepearte this and put it in one array 
+//old way using destructor and spread operator
+const [a, b, ...c] = arr;
+console.log(a);
+console.log(b);
+console.log(c);
+const spreaOp = [...a, ...b, ...c];
+console.log(spreaOp);
+
+//but it,s simple using flat  method that introduce in es2019 (not work in super old browser)
+//flat : remove the nested array and put it in one array
+console.log(arr.flat()); // no call back function
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// more we want to get deeper nested more flat value we have to set by default flat(1); [[]]
+console.log(arrDeep.flat(2));//2nd level nesting
+// calculate all accounts balence , total bank balence
+//--------flat-------
+const totalBalence = accounts.map(v => v.movements).flat().reduce((acc, v) => acc + v, 0);
+
+console.log(totalBalence);
+
+//flatMap method combine flat and map method together for better performance
+
+//----------flatMAp---------
+const totalBalence2 = accounts.flatMap(v => v.movements).flat().reduce((acc, v) => acc + v, 0);
+
+console.log(totalBalence2);
+
+//flatmap is one level deep [[]] but if we want to go more depper we have to go with flat
