@@ -69,15 +69,7 @@ const displayMovements = function (movements, sort = false) {
 
     // sorting functionality
     // orginal mov array ke sort na kore shallow copy er upor kaj korbo
-    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
-
-
-
-
-
-
-
-
+    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
     movs.forEach(function (mov, i) {
         const type = mov > 0 ? 'deposit' : 'withdrawal';
@@ -86,7 +78,7 @@ const displayMovements = function (movements, sort = false) {
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
             <div class="movements__date"></div> 
-            <div class="movements__value">${mov}</div>
+            <div class="movements__value">${mov} ৳</div>
         </div>`;
 
         containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -94,18 +86,6 @@ const displayMovements = function (movements, sort = false) {
     });
     // console.log(containerMovements.innerHTML);
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 //calculate movement balence and print it
 
@@ -115,32 +95,26 @@ const calcPrintBalence = function (acc) {
         0
     );
 
-
-
     labelBalance.textContent = `${acc.balence}৳`;
 };
 
-// calculate summary 
+// calculate summary
 
 const calcDisplaySummary = function (acc) {
-    const incomes = acc.movements.filter(v => v > 0).reduce((acc, v) => acc + v, 0)
+    const incomes = acc.movements
+        .filter((v) => v > 0)
+        .reduce((acc, v) => acc + v, 0);
     labelSumIn.textContent = `${incomes}৳`;
-    const out = acc.movements.filter(v => v < 0).reduce((acc, v) => acc + v, 0)
+    const out = acc.movements.filter((v) => v < 0).reduce((acc, v) => acc + v, 0);
     labelSumOut.textContent = `${Math.abs(out)}৳`;
     const intRate = acc.interestRate / 100;
-    const interest = acc.movements.filter(v => v > 0).map(v => v * intRate).filter(v => v >= 1).reduce((acc, v) => acc + v, 0)
+    const interest = acc.movements
+        .filter((v) => v > 0)
+        .map((v) => v * intRate)
+        .filter((v) => v >= 1)
+        .reduce((acc, v) => acc + v, 0);
     labelSumInterest.textContent = `${interest}৳`;
-}
-
-
-
-
-
-
-
-
-
-
+};
 
 const TktoUsd = 0.012;
 
@@ -238,35 +212,25 @@ const totalDepositUSD = account1.movements
 
 console.log(totalDepositUSD);
 
-
 // Update The UI
 const UpdateUi = function (currAcc) {
-    //Display movements 
+    //Display movements
     displayMovements(currAcc.movements);
 
     //Display balence
     calcPrintBalence(currAcc);
 
     //Display summary
-    calcDisplaySummary(currAcc)
-}
+    calcDisplaySummary(currAcc);
+};
 
-
-
-
-
-
-
-
-
-
-//find method 
+//find method
 //retrieve first element from the array based on condition
 
-const firstwithDraw = account1.movements.find(v => v < 0);
+const firstwithDraw = account1.movements.find((v) => v < 0);
 console.log(firstwithDraw);
 
-const account = accounts.find(v => v.owner === 'Mohammad Ali Shuvo')
+const account = accounts.find((v) => v.owner === 'Mohammad Ali Shuvo');
 
 console.log(account);
 //same functionality using for of loop
@@ -283,29 +247,28 @@ btnLogin.addEventListener('click', function (e) {
     e.preventDefault();
     // console.log('Login');
 
-    currentAccount = accounts.find(v => v.userName === inputLoginUsername.value)
+    currentAccount = accounts.find(
+        (v) => v.userName === inputLoginUsername.value
+    );
     console.log(currentAccount);
 
     if (currentAccount?.pin === Number(inputLoginPin.value)) {
-
-
         console.log(`login successfull`);
 
-        inputLoginUsername.value = inputLoginPin.value = "";
+        inputLoginUsername.value = inputLoginPin.value = '';
         //inputPin looses its focus by using blur
         inputLoginPin.blur();
         //display UI and welcome message
-        labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]}`;
+        labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]
+            }`;
 
         containerApp.style.opacity = 100;
 
-
-        UpdateUi(currentAccount)
+        UpdateUi(currentAccount);
     }
-})
+});
 
-
-//Transfer Money 
+//Transfer Money
 
 btnTransfer.addEventListener('click', function (e) {
     e.preventDefault();
@@ -313,45 +276,42 @@ btnTransfer.addEventListener('click', function (e) {
     const amount = Number(inputTransferAmount.value);
     // console.log(inputTransferTo.value);
 
-    const reciverAcc = accounts.find(v => v.userName === inputTransferTo.value);
+    const reciverAcc = accounts.find((v) => v.userName === inputTransferTo.value);
     console.log(amount, reciverAcc);
 
-    inputTransferTo.value = inputTransferAmount.value = "";
+    inputTransferTo.value = inputTransferAmount.value = '';
 
     // console.log(amount, TransUserName);
-    if (reciverAcc && currentAccount.balence >= amount && amount > 0 && reciverAcc.userName != currentAccount.userName) {
+    if (
+        reciverAcc &&
+        currentAccount.balence >= amount &&
+        amount > 0 &&
+        reciverAcc.userName != currentAccount.userName
+    ) {
         //withdraw from sender at first
         console.log('Transfer valid');
         currentAccount.movements.push(-amount);
         console.log(currentAccount.movements);
 
         //add deposite to the reciever account
-        reciverAcc.movements.push(amount)
+        reciverAcc.movements.push(amount);
         console.log(reciverAcc.movements);
         UpdateUi(currentAccount);
-    }
-    else {
-
-        // notification dekhabo pore 
+    } else {
+        // notification dekhabo pore
         console.log('You have not sufficient money');
     }
 
-
-
     // add deposite to the transfer user account
-
-
-
-
-})
+});
 
 //Request Loan Functionality using some method
 // we get loan if atleast 1 deposite and 10% of loan amount exist on my balence
 
 btnLoan.addEventListener('click', function (e) {
     e.preventDefault();
-    const amount = Number(inputLoanAmount.value)
-    if (amount > 0 && currentAccount.movements.some(v => v >= amount * .1)) {
+    const amount = Number(inputLoanAmount.value);
+    if (amount > 0 && currentAccount.movements.some((v) => v >= amount * 0.1)) {
         console.log(`You are eligible for loan`);
 
         currentAccount.movements.push(amount);
@@ -360,58 +320,50 @@ btnLoan.addEventListener('click', function (e) {
         UpdateUi(currentAccount);
         inputLoanAmount.value = '';
         inputLoanAmount.blur();
-    }
-    else {
+    } else {
         //notification FIXME
         console.log(`not eligible`);
     }
-
-})
-
+});
 
 // close account functionality  using find index method
 // find index same as find but it return only index not whole thing
 
 btnClose.addEventListener('click', function (e) {
-
     e.preventDefault();
     console.log(inputClosePin.value);
 
-
-    if (inputCloseUsername.value === currentAccount.userName && Number(inputClosePin.value) === currentAccount.pin) {
-
-        const clsAccUser = accounts.findIndex(v => v.userName === inputCloseUsername.value)
+    if (
+        inputCloseUsername.value === currentAccount.userName &&
+        Number(inputClosePin.value) === currentAccount.pin
+    ) {
+        const clsAccUser = accounts.findIndex(
+            (v) => v.userName === inputCloseUsername.value
+        );
         //indexof o kora jai but indexof findindex er moto complex query kora jai na just array te data thakle kaj kore like indexof(23)
-        accounts.splice(clsAccUser, 1)
+        accounts.splice(clsAccUser, 1);
 
         // hide UI
         containerApp.style.opacity = 0;
         console.log(`Account close successfull`);
 
         console.log(accounts);
-    }
-    else {
+    } else {
         console.log(`please provide valid username`);
     }
 
-    inputCloseUsername.value = inputClosePin.value = "";
+    inputCloseUsername.value = inputClosePin.value = '';
     inputClosePin.blur();
-})
+});
 
 let sorted = false;
 //sort functionality
 btnSort.addEventListener('click', function (e) {
-
     e.preventDefault();
-    displayMovements(currentAccount.movements, !sorted)
+    displayMovements(currentAccount.movements, !sorted);
 
     sorted = !sorted;
-})
-
-
-
-
-
+});
 
 // include method - we can use include method if a certain array value exist on the array includes return true
 //includes only test with value(equality ) not check condition
@@ -419,28 +371,28 @@ console.log(account1.movements.includes(200));
 // to apply condition and check a certain property exist on the array or not usinng some method
 
 //some method to check any deposite exist in the array or not
-const anyDeposite = account1.movements.some(v => v > 0);
+const anyDeposite = account1.movements.some((v) => v > 0);
 console.log(anyDeposite);
-const above5Thousands = account1.movements.some(v => v > 5000);
+const above5Thousands = account1.movements.some((v) => v > 5000);
 console.log(above5Thousands);
 //every method
 
 //same as some but main diff is , in every method if all the element satisfy the condition then return true
 
-console.log(account1.movements.every(v => v > 0));
+console.log(account1.movements.every((v) => v > 0));
 //array te specific condition diya search deowar khetre some useful , r jodi emn hoi je proti ta value same condition pass korbe taile every
-console.log(account1.movements.some(v => v > 0));
+console.log(account1.movements.some((v) => v > 0));
 
 //separate call back
 
-const depositeVal = v => v > 0;
+const depositeVal = (v) => v > 0;
 console.log(account1.movements.every(depositeVal));
 console.log(account1.movements.some(depositeVal));
 console.log(account1.movements.filter(depositeVal));
 
 //flat and flat map
 const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-//sepearte this and put it in one array 
+//sepearte this and put it in one array
 //old way using destructor and spread operator
 const [a, b, ...c] = arr;
 console.log(a);
@@ -455,23 +407,27 @@ console.log(arr.flat()); // no call back function
 
 const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 // more we want to get deeper nested more flat value we have to set by default flat(1); [[]]
-console.log(arrDeep.flat(2));//2nd level nesting
+console.log(arrDeep.flat(2)); //2nd level nesting
 // calculate all accounts balence , total bank balence
 //--------flat-------
-const totalBalence = accounts.map(v => v.movements).flat().reduce((acc, v) => acc + v, 0);
+const totalBalence = accounts
+    .map((v) => v.movements)
+    .flat()
+    .reduce((acc, v) => acc + v, 0);
 
 console.log(totalBalence);
 
 //flatMap method combine flat and map method together for better performance
 
 //----------flatMAp---------
-const totalBalence2 = accounts.flatMap(v => v.movements).flat().reduce((acc, v) => acc + v, 0);
+const totalBalence2 = accounts
+    .flatMap((v) => v.movements)
+    .flat()
+    .reduce((acc, v) => acc + v, 0);
 
 console.log(totalBalence2);
 
 //flatmap is one level deep [[]] but if we want to go more depper we have to go with flat
-
-
 
 //Short method
 //String
@@ -517,6 +473,54 @@ console.log(account1.movements);
 // account1.movements.sort((a, b) => b - a)
 // console.log(account1.movements);
 
-
 console.log(account1.movements.slice());
+
+
+// More ways to creatring and filling array
+//empty arrays + fill methods
+const arrFill = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7, 8, 9));
+
+//passing 1 argument create that length of array
+const x = new Array(7);
+console.log(x);
+// x.fill(5);
+
+//just like slice we can set the beginand end parameter
+x.fill(1, 3, 5)
+console.log(x);
+//.fill(set property,start index,endindexconsiderlength like)
+arrFill.fill(23, 1, 8);
+arrFill.fill(5, 0, -8);
+arrFill.fill(10, 8, -1);
+console.log(arrFill);
+
+//Array.from method
+
+//generate array + fill this array dynamically , first parameter length of the array thn a call back function on each iteartion return value
+const dynamicArr = Array.from({ length: 7 }, () => 1);
+console.log(dynamicArr);
+
+// rather than create array and thn fill use Array.from 
+
+const ar = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(ar);
+const arrRandom = Array.from({ length: 100 }, (_, i) => Math.floor(Math.random() * 6) + 1);
+
+console.log(arrRandom);
+//practical example of array.from
+
+//get the movements from the ui and calculate it 
+// dom element  pick kore array te store korte pari
+
+labelBalance.addEventListener('click', function () {
+    const movemntUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('৳', '')));
+    //another way without using from method just use spread operator
+    const moveUi2 = [...document.querySelectorAll('.movements__value')]
+
+    console.log(moveUi2);
+    console.log(movemntUI);
+
+
+})
 
