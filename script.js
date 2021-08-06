@@ -9,18 +9,7 @@ const account1 = {
     movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
     interestRate: 1.2, // %
     pin: 1111,
-    movementsDates: [
-        '2019-11-18T21:31:17.178Z',
-        '2019-12-23T07:42:02.383Z',
-        '2020-01-28T09:15:04.904Z',
-        '2020-04-01T10:17:24.185Z',
-        '2020-05-08T14:11:59.604Z',
-        '2020-07-26T17:01:17.194Z',
-        '2020-07-28T23:36:17.929Z',
-        '2020-08-01T10:51:36.790Z',
-    ],
-    currency: 'EUR',
-    locale: 'pt-PT', // de-DE
+
 
 };
 
@@ -29,35 +18,24 @@ const account2 = {
     movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
     interestRate: 1.5,
     pin: 2222,
-    movementsDates: [
-        '2019-11-01T13:15:33.035Z',
-        '2019-11-30T09:48:16.867Z',
-        '2019-12-25T06:04:23.907Z',
-        '2020-01-25T14:18:46.235Z',
-        '2020-02-05T16:33:06.386Z',
-        '2020-04-10T14:43:26.374Z',
-        '2020-06-25T18:49:59.371Z',
-        '2020-07-26T12:01:20.894Z',
-    ],
-    currency: 'USD',
-    locale: 'en-US',
+
 };
 
-// const account3 = {
-//     owner: 'A.K.M Miftahur Rahman Sarker',
-//     movements: [200, -200, 340, -300, -20, 50, 400, -460],
-//     interestRate: 0.7,
-//     pin: 3333,
-// };
+const account3 = {
+    owner: 'A.K.M Miftahur Rahman Sarker',
+    movements: [200, -200, 340, -300, -20, 50, 400, -460],
+    interestRate: 0.7,
+    pin: 3333,
+};
 
-// const account4 = {
-//     owner: 'John Doe',
-//     movements: [430, 1000, 700, 50, 90],
-//     interestRate: 1,
-//     pin: 4444,
-// };
+const account4 = {
+    owner: 'John Doe',
+    movements: [430, 1000, 700, 50, 90],
+    interestRate: 1,
+    pin: 4444,
+};
 
-const accounts = [account1, account2];
+const accounts = [account1, account2, account3, account4];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -103,7 +81,7 @@ const displayMovements = function (movements, sort = false) {
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
             <div class="movements__date"></div> 
-            <div class="movements__value">${mov} ৳</div>
+            <div class="movements__value">${mov.toFixed(2)} ৳</div>
         </div>`;
 
         containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -120,7 +98,7 @@ const calcPrintBalence = function (acc) {
         0
     );
 
-    labelBalance.textContent = `${acc.balence}৳`;
+    labelBalance.textContent = `${acc.balence.toFixed(2)}৳`;
 };
 
 // calculate summary
@@ -129,16 +107,16 @@ const calcDisplaySummary = function (acc) {
     const incomes = acc.movements
         .filter((v) => v > 0)
         .reduce((acc, v) => acc + v, 0);
-    labelSumIn.textContent = `${incomes}৳`;
+    labelSumIn.textContent = `${incomes.toFixed(2)}৳`;
     const out = acc.movements.filter((v) => v < 0).reduce((acc, v) => acc + v, 0);
-    labelSumOut.textContent = `${Math.abs(out)}৳`;
+    labelSumOut.textContent = `${Math.abs(out).toFixed(2)}৳`;
     const intRate = acc.interestRate / 100;
     const interest = acc.movements
         .filter((v) => v > 0)
         .map((v) => v * intRate)
         .filter((v) => v >= 1)
         .reduce((acc, v) => acc + v, 0);
-    labelSumInterest.textContent = `${interest}৳`;
+    labelSumInterest.textContent = `${interest.toFixed(2)}৳`;
 };
 
 const TktoUsd = 0.012;
@@ -277,7 +255,7 @@ btnLogin.addEventListener('click', function (e) {
         (v) => v.userName === inputLoginUsername.value
     );
     console.log(currentAccount);
-
+    //  console.log(+'23');
     if (currentAccount?.pin === Number(inputLoginPin.value)) {
         console.log(`login successfull`);
 
@@ -336,7 +314,7 @@ btnTransfer.addEventListener('click', function (e) {
 
 btnLoan.addEventListener('click', function (e) {
     e.preventDefault();
-    const amount = Number(inputLoanAmount.value);
+    const amount = Math.floor(inputLoanAmount.value);
     if (amount > 0 && currentAccount.movements.some((v) => v >= amount * 0.1)) {
         console.log(`You are eligible for loan`);
 
@@ -641,7 +619,6 @@ const num = 23;
 // console.log(huge * num); //show error
 console.log(huge * BigInt(num));
 //math operation also not work in bigInt
-// console.log(Math.sqrt(huge)); //error
 //but in comparison we can work with bigInt and normal num
 // exception
 console.log(huge > num); //true
@@ -654,3 +631,38 @@ console.log(huge + 'Is really big');
 //Division
 console.log(10 / 3);// normally 3.33333333333
 console.log(10n / 3n);// but in bigint cut the decimal and return the closes 3n
+
+//Math and rounding
+
+console.log(`-----------------MAth and Rounding-------------`);
+console.log(Math.sqrt(25));
+console.log(25 ** (1 / 2));
+console.log(8 ** (1 / 3));
+console.log(Math.max(5, 10, '100', 25, 99));//100 type cohertion
+console.log(Math.max(5, 10, '100px', 25, 99));//NAN cannot parese thats why
+console.log(Math.min(5, 10, 100, 25, 99, -25, 0, -50));
+console.log(Math.PI * Number.parseFloat('10px') ** 2);
+console.log(Math.random());//random num between 0 and 1
+console.log(Math.trunc(Math.random() * 6 + 1));
+//gives a random num that stays between min and max
+const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + min)
+
+console.log(randomInt(5, 100));
+
+//rounding int 
+console.log(Math.trunc(23.9));
+console.log(Math.round(23.9)); //24 .5 er por next num ta nei round trunc decimal part ta kate num check kore na
+console.log(Math.ceil(23.1));//ceil point er porer value tai nibe .1 thakleow round .5 er theke nei ceil .1 thekei nei next value
+console.log(Math.ceil(23.9));
+console.log(Math.floor(23.9));
+console.log(Math.floor(23.9));
+//floor is just like trunc but floor neg number e ceil er moto kaj kore
+console.log(Math.trunc(-23.3)); // -23
+console.log(Math.floor(-23.1));// -24
+
+// so for all situation better use floor rather then trunc
+
+// rounding decimals
+console.log(+(2.7).toFixed(0)); // 3 //tofixed always returns string not a number
+console.log(+(2.7).toFixed(5));// 2.70000 decimal er por 5 ta point fixed korlo
+console.log(+(2.458963).toFixed(2));  //2.46 // result string ke number e convert kore nite hobe
