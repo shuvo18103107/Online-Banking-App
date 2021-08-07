@@ -18,6 +18,7 @@ const account1 = {
         '2020-05-27T17:01:17.194Z',
         '2020-07-11T23:36:17.929Z',
         '2020-07-12T10:51:36.790Z',
+
     ],
     currency: 'EUR',
     locale: 'pt-PT', // de-DE
@@ -90,21 +91,27 @@ const inputClosePin = document.querySelector('.form__input--pin ');
 //display each movements on the list
 
 // recieve a movement array
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (curracc, sort = false) {
     // console.log(containerMovements.innerHTML);
     containerMovements.innerHTML = '';
 
     // sorting functionality
     // orginal mov array ke sort na kore shallow copy er upor kaj korbo
-    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+    const movs = sort ? curracc.movements.slice().sort((a, b) => a - b) : curracc.movements;
 
     movs.forEach(function (mov, i) {
         const type = mov > 0 ? 'deposit' : 'withdrawal';
-
+        //common technique to looping over two arrays at the same time
+        //get time string 
+        const date = new Date(curracc.movementsDates[i]);
+        const day = `${date.getDate()}`.padStart(2, 0);
+        const month = `${date.getMonth() + 1}`.padStart(2, 0);
+        const year = date.getFullYear();
+        const displayDate = `${day}/${month}/${year}`
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
-            <div class="movements__date"></div> 
+            <div class="movements__date">${displayDate}</div> 
             <div class="movements__value">${mov.toFixed(2)} ৳</div>
         </div>`;
 
@@ -241,8 +248,9 @@ console.log(totalDepositUSD);
 
 // Update The UI
 const UpdateUi = function (currAcc) {
+
     //Display movements
-    displayMovements(currAcc.movements);
+    displayMovements(currAcc);
 
     //Display balence
     calcPrintBalence(currAcc);
@@ -267,6 +275,34 @@ console.log(account);
 //     }
 // }
 let currentAccount;
+
+
+//fake always looged in
+
+currentAccount = account1;
+UpdateUi(currentAccount)
+containerApp.style.opacity = 100
+
+//creating date
+
+
+//convert 24 hour time to 12 hour with AM/PM
+function tConvert(time) {
+
+    // Check correct time format and split into components
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) { // If time format correct
+        time = time.slice(1);  // Remove full string match value
+        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    // console.log(time.join(''));
+    return time.join(''); // return adjusted time or original string
+}
+
+
+// tConvert('18:00')
 //login functionality
 
 btnLogin.addEventListener('click', function (e) {
@@ -290,8 +326,19 @@ btnLogin.addEventListener('click', function (e) {
         labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]
             }`;
 
-        containerApp.style.opacity = 100;
+        //create current date and time (12 hour format with Am/Pm)
+        const now = new Date();
+        const day = `${now.getDate()}`.padStart(2, 0);
+        const month = `${now.getMonth() + 1}`.padStart(2, 0);
+        const year = now.getFullYear();
+        const hour = `${now.getHours()}`.padStart(2, 0);
+        const minute = `${now.getMinutes()}`.padStart(2, 0);
+        const seconds = now.getSeconds();
+        //day/mon/year
+        labelDate.textContent = `${day}/${month}/${year}, ${tConvert(`${hour}:${minute}`)}`
 
+        containerApp.style.opacity = 100;
+        // console.log(tConvert);
         UpdateUi(currentAccount);
     }
 });
@@ -324,6 +371,11 @@ btnTransfer.addEventListener('click', function (e) {
         //add deposite to the reciever account
         reciverAcc.movements.push(amount);
         console.log(reciverAcc.movements);
+
+        // add transfer date 
+        currentAccount.movementsDates.push(new Date().toISOString());
+        reciverAcc.movementsDates.push(new Date().toISOString());
+
         UpdateUi(currentAccount);
     } else {
         // notification dekhabo pore
@@ -344,6 +396,8 @@ btnLoan.addEventListener('click', function (e) {
 
         currentAccount.movements.push(amount);
         console.log(currentAccount.movements);
+        //Add loan date
+        currentAccount.movementsDates.push(new Date().toISOString());
 
         UpdateUi(currentAccount);
         inputLoanAmount.value = '';
@@ -390,7 +444,7 @@ let sorted = false;
 //sort functionality
 btnSort.addEventListener('click', function (e) {
     e.preventDefault();
-    displayMovements(currentAccount.movements, !sorted);
+    displayMovements(currentAccount, !sorted);
 
     sorted = !sorted;
 });
