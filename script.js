@@ -9,6 +9,18 @@ const account1 = {
     movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
     interestRate: 1.2, // %
     pin: 1111,
+    movementsDates: [
+        '2019-11-18T21:31:17.178Z',
+        '2019-12-23T07:42:02.383Z',
+        '2020-01-28T09:15:04.904Z',
+        '2020-04-01T10:17:24.185Z',
+        '2020-05-08T14:11:59.604Z',
+        '2020-05-27T17:01:17.194Z',
+        '2020-07-11T23:36:17.929Z',
+        '2020-07-12T10:51:36.790Z',
+    ],
+    currency: 'EUR',
+    locale: 'pt-PT', // de-DE
 
 
 };
@@ -18,24 +30,36 @@ const account2 = {
     movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
     interestRate: 1.5,
     pin: 2222,
+    movementsDates: [
+        '2019-11-01T13:15:33.035Z',
+        '2019-11-30T09:48:16.867Z',
+        '2019-12-25T06:04:23.907Z',
+        '2020-01-25T14:18:46.235Z',
+        '2020-02-05T16:33:06.386Z',
+        '2020-04-10T14:43:26.374Z',
+        '2020-06-25T18:49:59.371Z',
+        '2020-07-26T12:01:20.894Z',
+    ],
+    currency: 'USD',
+    locale: 'en-US',
 
 };
 
-const account3 = {
-    owner: 'A.K.M Miftahur Rahman Sarker',
-    movements: [200, -200, 340, -300, -20, 50, 400, -460],
-    interestRate: 0.7,
-    pin: 3333,
-};
+// const account3 = {
+//     owner: 'A.K.M Miftahur Rahman Sarker',
+//     movements: [200, -200, 340, -300, -20, 50, 400, -460],
+//     interestRate: 0.7,
+//     pin: 3333,
+// };
 
-const account4 = {
-    owner: 'John Doe',
-    movements: [430, 1000, 700, 50, 90],
-    interestRate: 1,
-    pin: 4444,
-};
+// const account4 = {
+//     owner: 'John Doe',
+//     movements: [430, 1000, 700, 50, 90],
+//     interestRate: 1,
+//     pin: 4444,
+// };
 
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -533,52 +557,52 @@ labelBalance.addEventListener('click', function () {
     console.log(movemntUI);
 });
 
-console.log('------------------------Numbers and Date--------------------');
-//-----------Numbers-----------
-//js always shows decimal point in any numbers
-console.log(23 === 23.0);
+// console.log('------------------------Numbers and Date--------------------');
+// //-----------Numbers-----------
+// //js always shows decimal point in any numbers
+// console.log(23 === 23.0);
 
-console.log(0.1 + 0.2 === 0.3);
-//but js return false in that case due to fractional system
-// string to number
-console.log(Number('23'));
-console.log(+'23');//+ here typr conversion convert string to num autmatically
+// console.log(0.1 + 0.2 === 0.3);
+// //but js return false in that case due to fractional system
+// // string to number
+// console.log(Number('23'));
+// console.log(+'23');//+ here typr conversion convert string to num autmatically
 
-//Parsint - identify number from a string- but string should be start with number otherwise not work
-//2nd parameter is base base10- 0-9 - sometimes it help to unencessary bug
-console.log(Number.parseInt('100px', 10));
-console.log(Number.parseInt('px100', 10));
-console.log(Number.parseFloat('2.5rem', 10));
-console.log(Number.parseInt('2.5rem', 10));
+// //Parsint - identify number from a string- but string should be start with number otherwise not work
+// //2nd parameter is base base10- 0-9 - sometimes it help to unencessary bug
+// console.log(Number.parseInt('100px', 10));
+// console.log(Number.parseInt('px100', 10));
+// console.log(Number.parseFloat('2.5rem', 10));
+// console.log(Number.parseInt('2.5rem', 10));
 
-// we can check if any value is a number or not a number (NAN hole true noile false)
+// // we can check if any value is a number or not a number (NAN hole true noile false)
 
-console.log(Number.isNaN('shuvo'));
-console.log(Number.isNaN(+'20x'));
-// use isfinite rather than isnan to check a value is number or nan
-//best way to checking a value is number or not 
-console.log(Number.isFinite(20));
-console.log(Number.isFinite('20'));
-console.log(Number.isFinite(+'20x'));
-console.log(Number.isFinite(23 / 0));
-console.log(Number.isInteger(23.0));
-console.log(Number.isInteger(23.0 / 0));
+// console.log(Number.isNaN('shuvo'));
+// console.log(Number.isNaN(+'20x'));
+// // use isfinite rather than isnan to check a value is number or nan
+// //best way to checking a value is number or not 
+// console.log(Number.isFinite(20));
+// console.log(Number.isFinite('20'));
+// console.log(Number.isFinite(+'20x'));
+// console.log(Number.isFinite(23 / 0));
+// console.log(Number.isInteger(23.0));
+// console.log(Number.isInteger(23.0 / 0));
 
-//Remainder Operator
-// simply returns a remainder from a division
-console.log(5 % 2);
-console.log(8 % 3);
+// //Remainder Operator
+// // simply returns a remainder from a division
+// console.log(5 % 2);
+// console.log(8 % 3);
 
-// it is useful to checking even odd
-console.log(5 % 2);
-console.log(6 % 2);
-const isEven = n => n % 2 === 0;
+// // it is useful to checking even odd
+// console.log(5 % 2);
+// console.log(6 % 2);
+// const isEven = n => n % 2 === 0;
 
-console.log(isEven(8));
-console.log(isEven(23));
-console.log(isEven(15));
-//nodelist to array convert using arrayform
-console.log([...document.querySelectorAll('.movements__row')]);
+// console.log(isEven(8));
+// console.log(isEven(23));
+// console.log(isEven(15));
+// //nodelist to array convert using arrayform
+// console.log([...document.querySelectorAll('.movements__row')]);
 
 // labelBalance.addEventListener('click', function () {
 //     Array.from(document.querySelectorAll('.movements__row')).forEach(
@@ -598,71 +622,109 @@ console.log([...document.querySelectorAll('.movements__row')]);
 
 //BigINT - special type of int introduce in es2020
 // numbers are represent in js 64 bit(53 store number rest sign and decimal point)
-console.log(2 ** 53 - 1); //buggest number that js can safely represent
-console.log(Number.MAX_SAFE_INTEGER);
-//unsafe numbers but some unsafe num still can be represent
-console.log(2 ** 53 + 1);
-console.log(2 ** 53 + 2);
-console.log(2 ** 53 + 3);
-console.log(2 ** 53 + 4);
-console.log(2 ** 53 + 5);
+// console.log(2 ** 53 - 1); //buggest number that js can safely represent
+// console.log(Number.MAX_SAFE_INTEGER);
+// //unsafe numbers but some unsafe num still can be represent
+// console.log(2 ** 53 + 1);
+// console.log(2 ** 53 + 2);
+// console.log(2 ** 53 + 3);
+// console.log(2 ** 53 + 4);
+// console.log(2 ** 53 + 5);
 
-console.log((2 ** 89 - 1));
-//suppose we get a large number from database or a web api then for representation we can use BigInt
-console.log(4589745213698521452136974589632145n);
-//operation use case of bigINT
-console.log(100000n + 500000n);
-console.log(100048478123654789412257999999999912478515n * 100000000000n);
-//big int never work with normal num
-const huge = 444444445799999999999n;
-const num = 23;
-// console.log(huge * num); //show error
-console.log(huge * BigInt(num));
-//math operation also not work in bigInt
-//but in comparison we can work with bigInt and normal num
-// exception
-console.log(huge > num); //true
-console.log(huge === num);//cg one is bigint and another one is num so return false
-console.log(20n == '20');
+// console.log((2 ** 89 - 1));
+// //suppose we get a large number from database or a web api then for representation we can use BigInt
+// console.log(4589745213698521452136974589632145n);
+// //operation use case of bigINT
+// console.log(100000n + 500000n);
+// console.log(100048478123654789412257999999999912478515n * 100000000000n);
+// //big int never work with normal num
+// const huge = 444444445799999999999n;
+// const num = 23;
+// // console.log(huge * num); //show error
+// console.log(huge * BigInt(num));
+// //math operation also not work in bigInt
+// //but in comparison we can work with bigInt and normal num
+// // exception
+// console.log(huge > num); //true
+// console.log(huge === num);//cg one is bigint and another one is num so return false
+// console.log(20n == '20');
 
-//string e big int use korle big int string e convert hoi
-console.log(huge + 'Is really big');
+// //string e big int use korle big int string e convert hoi
+// console.log(huge + 'Is really big');
 
-//Division
-console.log(10 / 3);// normally 3.33333333333
-console.log(10n / 3n);// but in bigint cut the decimal and return the closes 3n
+// //Division
+// console.log(10 / 3);// normally 3.33333333333
+// console.log(10n / 3n);// but in bigint cut the decimal and return the closes 3n
 
 //Math and rounding
 
-console.log(`-----------------MAth and Rounding-------------`);
-console.log(Math.sqrt(25));
-console.log(25 ** (1 / 2));
-console.log(8 ** (1 / 3));
-console.log(Math.max(5, 10, '100', 25, 99));//100 type cohertion
-console.log(Math.max(5, 10, '100px', 25, 99));//NAN cannot parese thats why
-console.log(Math.min(5, 10, 100, 25, 99, -25, 0, -50));
-console.log(Math.PI * Number.parseFloat('10px') ** 2);
-console.log(Math.random());//random num between 0 and 1
-console.log(Math.trunc(Math.random() * 6 + 1));
-//gives a random num that stays between min and max
-const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + min)
+// console.log(`-----------------MAth and Rounding-------------`);
+// console.log(Math.sqrt(25));
+// console.log(25 ** (1 / 2));
+// console.log(8 ** (1 / 3));
+// console.log(Math.max(5, 10, '100', 25, 99));//100 type cohertion
+// console.log(Math.max(5, 10, '100px', 25, 99));//NAN cannot parese thats why
+// console.log(Math.min(5, 10, 100, 25, 99, -25, 0, -50));
+// console.log(Math.PI * Number.parseFloat('10px') ** 2);
+// console.log(Math.random());//random num between 0 and 1
+// console.log(Math.trunc(Math.random() * 6 + 1));
+// //gives a random num that stays between min and max
+// const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + min)
 
-console.log(randomInt(5, 100));
+// console.log(randomInt(5, 100));
 
-//rounding int 
-console.log(Math.trunc(23.9));
-console.log(Math.round(23.9)); //24 .5 er por next num ta nei round trunc decimal part ta kate num check kore na
-console.log(Math.ceil(23.1));//ceil point er porer value tai nibe .1 thakleow round .5 er theke nei ceil .1 thekei nei next value
-console.log(Math.ceil(23.9));
-console.log(Math.floor(23.9));
-console.log(Math.floor(23.9));
-//floor is just like trunc but floor neg number e ceil er moto kaj kore
-console.log(Math.trunc(-23.3)); // -23
-console.log(Math.floor(-23.1));// -24
+// //rounding int 
+// console.log(Math.trunc(23.9));
+// console.log(Math.round(23.9)); //24 .5 er por next num ta nei round trunc decimal part ta kate num check kore na
+// console.log(Math.ceil(23.1));//ceil point er porer value tai nibe .1 thakleow round .5 er theke nei ceil .1 thekei nei next value
+// console.log(Math.ceil(23.9));
+// console.log(Math.floor(23.9));
+// console.log(Math.floor(23.9));
+// //floor is just like trunc but floor neg number e ceil er moto kaj kore
+// console.log(Math.trunc(-23.3)); // -23
+// console.log(Math.floor(-23.1));// -24
 
-// so for all situation better use floor rather then trunc
+// // so for all situation better use floor rather then trunc
 
-// rounding decimals
-console.log(+(2.7).toFixed(0)); // 3 //tofixed always returns string not a number
-console.log(+(2.7).toFixed(5));// 2.70000 decimal er por 5 ta point fixed korlo
-console.log(+(2.458963).toFixed(2));  //2.46 // result string ke number e convert kore nite hobe
+// // rounding decimals
+// console.log(+(2.7).toFixed(0)); // 3 //tofixed always returns string not a number
+// console.log(+(2.7).toFixed(5));// 2.70000 decimal er por 5 ta point fixed korlo
+// console.log(+(2.458963).toFixed(2));  //2.46 // result string ke number e convert kore nite hobe
+
+console.log(`---------------Date------------`);
+
+//in js we can create date in 4 way
+// const now = new Date()
+// console.log(now);
+// //parsing string and genertae date
+// console.log(new Date('Aug 07 2021 '));
+// console.log(new Date('December 24,2015'));
+// console.log(new Date(account1.movementsDates[0]));
+// //in js month is 0 based
+// console.log(new Date(2037, 10, 19, 15, 23, 5))
+// //nov(10)as month is 0 based month not 31 so js automatic convert it to dec
+// console.log(new Date(2037, 10, 31))
+// console.log(new Date(0));
+// console.log(new Date(3 * 24 * 60 * 60 * 1000));
+
+//working with date
+
+const future = new Date(2037, 10, 19, 15, 23, 5)
+console.log(future);
+
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());// 0 based
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+//timstamps for date
+console.log(future.getTime());
+console.log(new Date(2142235385000));
+//current timstamps
+console.log(Date.now());
+
+future.setFullYear(2040);
+console.log(future);
