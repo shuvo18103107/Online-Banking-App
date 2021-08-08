@@ -498,14 +498,16 @@ btnLoan.addEventListener('click', function (e) {
     e.preventDefault();
     const amount = Math.floor(inputLoanAmount.value);
     if (amount > 0 && currentAccount.movements.some((v) => v >= amount * 0.1)) {
-        console.log(`You are eligible for loan`);
+        console.log(`You are eligible for loan w8 some time for approve`);
+        setTimeout(function () {
+            currentAccount.movements.push(amount);
+            console.log(currentAccount.movements);
+            //Add loan date
+            currentAccount.movementsDates.push(new Date().toISOString());
 
-        currentAccount.movements.push(amount);
-        console.log(currentAccount.movements);
-        //Add loan date
-        currentAccount.movementsDates.push(new Date().toISOString());
-
-        UpdateUi(currentAccount);
+            UpdateUi(currentAccount);
+        }, 2500)
+        //FIXME notification like w8 some moment for bank approvation
         inputLoanAmount.value = '';
         inputLoanAmount.blur();
     } else {
@@ -940,3 +942,33 @@ console.log('Germany', new Intl.NumberFormat('de-DE', option1).format(num));
 console.log('Syria', new Intl.NumberFormat('ar-SY', option1).format(num));
 console.log('Bangladesh', new Intl.NumberFormat('bn-BD', option1).format(num));
 console.log('User Browser', new Intl.NumberFormat(navigator.language, option1).format(num));
+console.log(`-------------SetTimeOut and setInterval--------------`);
+
+//we can use settimeout to execute some code in future
+const ingredients = ['olives', 'spinach'];
+const pizzaTimer = setTimeout((intg1, intg2) => {
+    console.log(`Here is your pizza🍕 with ${intg1} and ${intg2}`);
+
+}, 3000,
+    //we can also pas argument here
+    // ingredients[0], ingredients[1]
+    ...ingredients
+);//amount of milliseconds
+//code execution continues after the time reach the function is called inside the setrtimeout function
+console.log('waiting......');
+
+if (ingredients.includes('spinach')) {
+    //we can cancel the settimeout function by some specific condition
+    clearTimeout(pizzaTimer)
+
+}
+
+//set Interval
+
+setInterval(function () {
+    const now = new Date();
+    console.log(now.getHours(), now.getMinutes(), now.getSeconds());
+
+    // console.log(now);
+
+}, 1000)
