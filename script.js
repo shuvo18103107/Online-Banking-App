@@ -20,8 +20,8 @@ const account1 = {
         '2021-08-08T10:51:36.790Z',
 
     ],
-    currency: 'EUR',
-    // locale: 'en-IN', // de-DE
+    currency: 'BDT',
+    locale: 'bn-BD',
 
 
 };
@@ -42,8 +42,7 @@ const account2 = {
         '2020-07-26T12:01:20.894Z',
     ],
     currency: 'USD',
-    // locale: 'pt-PT',
-
+    locale: 'en-US',
 };
 
 // const account3 = {
@@ -121,7 +120,15 @@ const formatMovementDate = function (date) {
 }
 
 
+const formattedBalence = function (value, locale, currency) {
+    const formattedBalence = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currency
+        // currency specify kore dile oi onujai currency dekhabe but currency er format style local user based e hobe as we use user local navigator language
 
+    }).format(value);
+    return formattedBalence;
+}
 
 
 
@@ -146,12 +153,14 @@ const displayMovements = function (curracc, sort = false) {
         const date = new Date(curracc.movementsDates[i]);
         //if browser api local time exist then we can also pass the currentaccount localZone
         const displayDate = formatMovementDate(date);
+
+        const formattedcurrMov = formattedBalence(mov, currentAccount.locale, currentAccount.currency)
         console.log(displayDate);
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
             <div class="movements__date">${displayDate}</div> 
-            <div class="movements__value">${mov.toFixed(2)} ৳</div>
+            <div class="movements__value">${formattedcurrMov}</div>
         </div>`;
 
         containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -168,7 +177,7 @@ const calcPrintBalence = function (acc) {
         0
     );
 
-    labelBalance.textContent = `${acc.balence.toFixed(2)}৳`;
+    labelBalance.textContent = `${formattedBalence(acc.balence, acc.locale, acc.currency)}`;
 };
 
 // calculate summary
@@ -177,30 +186,30 @@ const calcDisplaySummary = function (acc) {
     const incomes = acc.movements
         .filter((v) => v > 0)
         .reduce((acc, v) => acc + v, 0);
-    labelSumIn.textContent = `${incomes.toFixed(2)}৳`;
+    labelSumIn.textContent = `${formattedBalence(incomes, acc.locale, acc.currency)}`;
     const out = acc.movements.filter((v) => v < 0).reduce((acc, v) => acc + v, 0);
-    labelSumOut.textContent = `${Math.abs(out).toFixed(2)}৳`;
+    labelSumOut.textContent = `${(formattedBalence(Math.abs(out), acc.locale, acc.currency))}`;
     const intRate = acc.interestRate / 100;
     const interest = acc.movements
         .filter((v) => v > 0)
         .map((v) => v * intRate)
         .filter((v) => v >= 1)
         .reduce((acc, v) => acc + v, 0);
-    labelSumInterest.textContent = `${interest.toFixed(2)}৳`;
+    labelSumInterest.textContent = `${formattedBalence(interest, acc.locale, acc.currency)}`;
 };
 
 const TktoUsd = 0.012;
 
-const USDmovements = account1.movements.map(
-    (value) => value * TktoUsd
+// const USDmovements = account1.movements.map(
+//     (value) => value * TktoUsd
 
-    //     function (valu, i) {
-    //     //ekta new array return kore map each iteration e condition apply er pasapai
+//     //     function (valu, i) {
+//     //     //ekta new array return kore map each iteration e condition apply er pasapai
 
-    //     // return valu * TktoUsd;
-    //     // return 23 ba jai ditam same position e 23 add kore ekta rray return korto
-    // }
-);
+//     //     // return valu * TktoUsd;
+//     //     // return 23 ba jai ditam same position e 23 add kore ekta rray return korto
+//     // }
+// );
 
 // console.log(USDmovements);
 
@@ -428,7 +437,8 @@ btnLogin.addEventListener('click', function (e) {
 btnTransfer.addEventListener('click', function (e) {
     e.preventDefault();
     // console.log(currentAccount);
-    const amount = Number(inputTransferAmount.value);
+    let amount = Number(inputTransferAmount.value);
+    let recamount;
     // console.log(inputTransferTo.value);
 
     const reciverAcc = accounts.find((v) => v.userName === inputTransferTo.value);
@@ -443,13 +453,29 @@ btnTransfer.addEventListener('click', function (e) {
         amount > 0 &&
         reciverAcc.userName != currentAccount.userName
     ) {
+
+        switch (reciverAcc.currency) {
+
+
+            case "USD":
+                recamount = amount * 0.012;
+                break;
+            case "BDT":
+                recamount = amount * 84.98;
+                break;
+            // case "Apple":
+            //     text = "How you like them apples?";
+            //     break;
+            // default:
+            //     text = "I have never heard of that fruit...";
+        }
         //withdraw from sender at first
         console.log('Transfer valid');
         currentAccount.movements.push(-amount);
         console.log(currentAccount.movements);
 
         //add deposite to the reciever account
-        reciverAcc.movements.push(amount);
+        reciverAcc.movements.push(recamount);
         console.log(reciverAcc.movements);
 
         // add transfer date 
@@ -896,3 +922,21 @@ const local = navigator.language;
 console.log(local); //my local zone is : en-IN
 console.log(new Intl.DateTimeFormat(local, option).format(now));//Sunday, 8/8/2021, 1:09 pm
 
+console.log(`--------Internationalizing Numbers----------`);
+const num = 3598426.23;
+const option1 = {
+    // style: 'unit',
+    // style: 'percent',
+    style: 'currency',
+    // unit: 'mile-per-hour',
+    // unit: 'celsius',
+    currency: 'EUR',//currency can not be set by local, have to define manually
+
+    // useGrouping: false, //remove separate space comma
+
+}
+console.log('US', new Intl.NumberFormat('en-US', option1).format(num));
+console.log('Germany', new Intl.NumberFormat('de-DE', option1).format(num));
+console.log('Syria', new Intl.NumberFormat('ar-SY', option1).format(num));
+console.log('Bangladesh', new Intl.NumberFormat('bn-BD', option1).format(num));
+console.log('User Browser', new Intl.NumberFormat(navigator.language, option1).format(num));
