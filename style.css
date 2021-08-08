@@ -98,8 +98,9 @@ nav {
 }
 
 .balance__date {
-  font-size: 1.4rem;
-  color: #888;
+  font-weight: bold;
+  font-size: 1.6rem;
+  color: firebrick;
 }
 
 .balance__value {

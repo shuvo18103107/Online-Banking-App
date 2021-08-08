@@ -21,7 +21,7 @@ const account1 = {
 
     ],
     currency: 'EUR',
-    locale: 'pt-PT', // de-DE
+    // locale: 'en-IN', // de-DE
 
 
 };
@@ -42,7 +42,7 @@ const account2 = {
         '2020-07-26T12:01:20.894Z',
     ],
     currency: 'USD',
-    locale: 'en-US',
+    // locale: 'pt-PT',
 
 };
 
@@ -101,16 +101,19 @@ const formatMovementDate = function (date) {
     // console.log(calcdayPassed(new Date(2037, 3, 14), new Date(2037, 3, 23)));
     const daysPassed = calcdayPassed(new Date(), date);
     console.log(daysPassed);
-
+    const local = navigator.language;
     if (daysPassed === 0) return 'Today';
     if (daysPassed === 1) return 'Yesterday';
     if (daysPassed <= 7) return `${daysPassed} days ago`;
 
     //formate date day/month/year
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`
+    // const day = `${date.getDate()}`.padStart(2, 0);
+    // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    // const year = date.getFullYear();
+    // return `${day}/${month}/${year}`
+    // now using internationalize format date by user local data
+
+    return new Intl.DateTimeFormat(local).format(date) //here we don't need  option object to set hour min sec,month...
 
 
 
@@ -141,8 +144,9 @@ const displayMovements = function (curracc, sort = false) {
         //common technique to looping over two arrays at the same time
         //get time string 
         const date = new Date(curracc.movementsDates[i]);
-
+        //if browser api local time exist then we can also pass the currentaccount localZone
         const displayDate = formatMovementDate(date);
+        console.log(displayDate);
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
@@ -338,11 +342,43 @@ containerApp.style.opacity = 100
 // 12 hour date format with Am/pm using moment js
 function displayTime() {
 
-    var time = moment().format('MMMM Do YYYY, h:mm:ss a')
+    // var time = moment().format('MMMM Do YYYY, h:mm:ss a')
+
+
+    const now = new Date();
+    const option = {
+        hour: '2-digit',
+        minute: 'numeric',
+        second: 'numeric',
+        day: 'numeric',
+        month: 'long', //long dile dekhabe month name like August, '2-digit' dile 08 emn output asbe
+        year: '2-digit',
+        weekday: 'short', //short(sun)//narrow(s)
+
+    }
+    //rather than defining country local time we can use user browser to set current local time and date
+    const local = navigator.language;
+    // console.log(curracc.locale); //my local zone is : en-IN
+    const time = new Intl.DateTimeFormat(local, option).format(now);//Sunday, 8/8/2021, 1:09 pm
+
+
+
+
+
+
+
+
 
     setTimeout(displayTime, 1000);
+
     labelDate.textContent = `${time}`
+
+
+
 }
+
+
+
 // tConvert('18:00')
 //login functionalitylhjcvnvnvnvnvnvnx
 
@@ -367,17 +403,14 @@ btnLogin.addEventListener('click', function (e) {
         labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]
             }`;
 
-        //create current date and time (12 hour format with Am/Pm)
-        const now = new Date();
-        const day = `${now.getDate()}`.padStart(2, 0);
-        const month = `${now.getMonth() + 1}`.padStart(2, 0);
-        const year = now.getFullYear();
-        const hour = `${now.getHours()}`.padStart(2, 0);
-        const minute = `${now.getMinutes()}`.padStart(2, 0);
+
 
         //day/mon/year
         // labelDate.textContent = `${day}/${month}/${year}, ${tConvert(`${hour}:${minute}`)}`
+        // if api has selected zone then manually we can pass the currenyzone to this function
+        // displayTime(currentAccount);
 
+        //but we want to user browser time zone not set api time zone
         displayTime();
 
 
@@ -836,3 +869,30 @@ console.log(`---------------Date------------`);
 // console.log(Number(future));// date object ke num e convert -> timestamps
 // //or c
 // console.log(future.getTime());
+
+console.log(`--------Internationalizing Date---------`);
+// js has internationalizing api that means easily format string and number according to different language
+//internationalize time without moment.js libart
+//expermimenting API
+const now = new Date();
+const option = {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    day: 'numeric',
+    month: 'numeric', //long dile dekhabe month name like August, '2-digit' dile 08 emn output asbe
+    year: 'numeric',
+    weekday: 'long', //short(sun)//narrow(s)
+
+}
+
+
+console.log(now);
+console.log(new Intl.DateTimeFormat('en-GB', option).format(now));
+console.log(new Intl.DateTimeFormat('en-US', option).format(now));
+console.log(new Intl.DateTimeFormat('ar-SY', option).format(now));
+//rather than defining country local time we can use user browser to set current local time and date
+const local = navigator.language;
+console.log(local); //my local zone is : en-IN
+console.log(new Intl.DateTimeFormat(local, option).format(now));//Sunday, 8/8/2021, 1:09 pm
+
