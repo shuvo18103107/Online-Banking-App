@@ -10,14 +10,14 @@ const account1 = {
     interestRate: 1.2, // %
     pin: 1111,
     movementsDates: [
-        '2019-11-18T21:31:17.178Z',
-        '2019-12-23T07:42:02.383Z',
-        '2020-01-28T09:15:04.904Z',
-        '2020-04-01T10:17:24.185Z',
-        '2020-05-08T14:11:59.604Z',
-        '2020-05-27T17:01:17.194Z',
-        '2020-07-11T23:36:17.929Z',
-        '2020-07-12T10:51:36.790Z',
+        '2020-11-18T21:31:17.178Z',
+        '2020-12-23T07:42:02.383Z',
+        '2021-07-28T09:15:04.904Z',
+        '2021-07-01T10:17:24.185Z',
+        '2021-08-05T14:11:59.604Z',
+        '2021-08-06T17:01:17.194Z',
+        '2021-08-07T08:36:17.929Z',
+        '2021-08-08T10:51:36.790Z',
 
     ],
     currency: 'EUR',
@@ -88,6 +88,43 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin ');
 
+const formatMovementDate = function (date) {
+    console.log(date);
+
+    //calculate how many days passed since the current date and also between the date of movements
+    // two day timestamp e diff korle milliseconds e asbe result setake hour day minute e pore convert korlei hobe
+
+    const calcdayPassed = (date1, date2) =>
+        // diff between 2 date object result will be a timetsamps(milliseconds)
+        // so convert this milliseconds to day:milliseconds-> sec(1000)->minute(60)>hour(60)->day(24)
+        Math.round(Math.abs((date1 - date2)) / (1000 * 60 * 60 * 24)); // get the total day left 
+    // console.log(calcdayPassed(new Date(2037, 3, 14), new Date(2037, 3, 23)));
+    const daysPassed = calcdayPassed(new Date(), date);
+    console.log(daysPassed);
+
+    if (daysPassed === 0) return 'Today';
+    if (daysPassed === 1) return 'Yesterday';
+    if (daysPassed <= 7) return `${daysPassed} days ago`;
+
+    //formate date day/month/year
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
 //display each movements on the list
 
 // recieve a movement array
@@ -104,10 +141,8 @@ const displayMovements = function (curracc, sort = false) {
         //common technique to looping over two arrays at the same time
         //get time string 
         const date = new Date(curracc.movementsDates[i]);
-        const day = `${date.getDate()}`.padStart(2, 0);
-        const month = `${date.getMonth() + 1}`.padStart(2, 0);
-        const year = date.getFullYear();
-        const displayDate = `${day}/${month}/${year}`
+
+        const displayDate = formatMovementDate(date);
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
@@ -286,24 +321,30 @@ containerApp.style.opacity = 100
 //creating date
 
 
-//convert 24 hour time to 12 hour with AM/PM
-function tConvert(time) {
+//convert 24 hour time to 12 hour with AM/PM if server send string type 24 hour date format
+// function tConvert(time) {
 
-    // Check correct time format and split into components
-    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+//     // Check correct time format and split into components
+//     time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-    if (time.length > 1) { // If time format correct
-        time = time.slice(1);  // Remove full string match value
-        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-        time[0] = +time[0] % 12 || 12; // Adjust hours
-    }
-    // console.log(time.join(''));
-    return time.join(''); // return adjusted time or original string
+//     if (time.length > 1) { // If time format correct
+//         time = time.slice(1);  // Remove full string match value
+//         time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+//         time[0] = +time[0] % 12 || 12; // Adjust hours
+//     }
+//     // console.log(time.join(''));
+//     return time.join(''); // return adjusted time or original string
+// }
+// 12 hour date format with Am/pm using moment js
+function displayTime() {
+
+    var time = moment().format('MMMM Do YYYY, h:mm:ss a')
+
+    setTimeout(displayTime, 1000);
+    labelDate.textContent = `${time}`
 }
-
-
 // tConvert('18:00')
-//login functionality
+//login functionalitylhjcvnvnvnvnvnvnx
 
 btnLogin.addEventListener('click', function (e) {
     //prevent from form submitting
@@ -333,9 +374,15 @@ btnLogin.addEventListener('click', function (e) {
         const year = now.getFullYear();
         const hour = `${now.getHours()}`.padStart(2, 0);
         const minute = `${now.getMinutes()}`.padStart(2, 0);
-        const seconds = now.getSeconds();
+
         //day/mon/year
-        labelDate.textContent = `${day}/${month}/${year}, ${tConvert(`${hour}:${minute}`)}`
+        // labelDate.textContent = `${day}/${month}/${year}, ${tConvert(`${hour}:${minute}`)}`
+
+        displayTime();
+
+
+
+
 
         containerApp.style.opacity = 100;
         // console.log(tConvert);
@@ -763,22 +810,29 @@ console.log(`---------------Date------------`);
 
 //working with date
 
-const future = new Date(2037, 10, 19, 15, 23, 5)
-console.log(future);
+// const future = new Date(2037, 10, 19, 15, 23, 5)
+// console.log(future);
 
-console.log(future.getFullYear());
-console.log(future.getMonth());
-console.log(future.getDate());
-console.log(future.getDay());// 0 based
-console.log(future.getHours());
-console.log(future.getMinutes());
-console.log(future.getSeconds());
-console.log(future.toISOString());
-//timstamps for date
-console.log(future.getTime());
-console.log(new Date(2142235385000));
-//current timstamps
-console.log(Date.now());
+// console.log(future.getFullYear());
+// console.log(future.getMonth());
+// console.log(future.getDate());
+// console.log(future.getDay());// 0 based
+// console.log(future.getHours());
+// console.log(future.getMinutes());
+// console.log(future.getSeconds());
+// console.log(future.toISOString());
+// //timstamps for date
+// console.log(future.getTime());
+// console.log(new Date(2142235385000));
+// //current timstamps
+// console.log(Date.now());
 
-future.setFullYear(2040);
-console.log(future);
+// future.setFullYear(2040);
+// console.log(future);
+
+// //subtract one date from another date to know how many day passed 
+
+// const future = new Date(2037, 10, 19, 15, 23, 5)
+// console.log(Number(future));// date object ke num e convert -> timestamps
+// //or c
+// console.log(future.getTime());
