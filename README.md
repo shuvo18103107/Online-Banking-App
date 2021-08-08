@@ -18,7 +18,7 @@ It allows users to:
 *   Different countries local currency format
 *   Convert Money Transiction based on currency value
 *   Incoming, outcoming and Interest status
-*   Live Transiction Update
+*   Live Transiction Update and many more functionality
 
 #### Accounts
 
