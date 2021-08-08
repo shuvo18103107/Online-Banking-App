@@ -1,4 +1,4 @@
-<h1 align="center"> Minimalist Online Banking App</h1>
+<h1 align="center">🏛️ Minimalist Online Banking App 🏛️</h1>
 
 This web app is a online banking application, made by Javascript,Bootstrap,some external JS libary and other fronted tools, which simulates online banking .
 <br><br>
