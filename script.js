@@ -173,6 +173,16 @@ const displayMovements = function (curracc, sort = false) {
             currentAccount.currency
         );
         console.log(displayDate);
+        // two ways of creating dom element and insert dom in the node Tree 
+
+        // const html = document.createElement('div');
+        // html.classList.add('movements__row');
+        // console.log(html);
+        // html.innerHTML = `<div class="movements__type movements__type--${type}">${i + 1
+        //     } ${type}</div>
+        //    <div class="movements__date">${displayDate}</div> 
+        //    <div class="movements__value">${formattedcurrMov}</div>`;
+
         const html = `<div class="movements__row">
             <div class="movements__type movements__type--${type}">${i + 1
             } ${type}</div>
@@ -180,6 +190,17 @@ const displayMovements = function (curracc, sort = false) {
             <div class="movements__value">${formattedcurrMov}</div>
         </div>`;
 
+        /*
+** position
+A DOMString representing the position relative to the element; must be one of the following strings:
+'beforebegin': Before the element itself. //before
+'afterbegin': Just inside the element, before its first child. //prepend
+'beforeend': Just inside the element, after its last child. //append
+'afterend': After the element itself. //after
+text
+The string to be parsed as HTML or XML and inserted into the tree.
+        */
+        // containerMovements.insertAdjacentHTML('afterbegin', html);
         containerMovements.insertAdjacentHTML('afterbegin', html);
         //using beforeend create each new element after the previous one, in inverted way
     });
