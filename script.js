@@ -152,7 +152,6 @@ const formattedBalence = function (value, locale, currency) {
 const displayMovements = function (curracc, sort = false) {
     // console.log(containerMovements.innerHTML);
     containerMovements.innerHTML = '';
-
     // sorting functionality
     // orginal mov array ke sort na kore shallow copy er upor kaj korbo
     const movs = sort
