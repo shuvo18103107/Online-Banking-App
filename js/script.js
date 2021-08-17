@@ -107,6 +107,10 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin ');
+const logo = document.querySelector('.nav img');
+const loginContainer = document.querySelector('.login');
+const btnlogOut = document.querySelector('.btn-logout');
+const footer = document.querySelector('.footer')
 //global variable
 let currentAccount, timer;
 //formatting movement date using internatiolaizing API
@@ -353,6 +357,9 @@ btnLogin.addEventListener('click', function (e) {
         inputLoginUsername.value = inputLoginPin.value = '';
         //inputPin looses its focus by using blur
         inputLoginPin.blur();
+        logo.style.opacity = 0;
+        loginContainer.style.opacity = 0;
+
         //display UI and welcome message
         labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]
             }`;
@@ -366,6 +373,7 @@ btnLogin.addEventListener('click', function (e) {
         displayTime();
 
         containerApp.style.opacity = 100;
+        footer.classList.remove('hidden');
 
         //set the timer function globally so we can check if any timer exist on new login then we can easily clear this timer
         if (timer) {
@@ -376,9 +384,27 @@ btnLogin.addEventListener('click', function (e) {
         // console.log(tConvert);
         UpdateUi(currentAccount);
     } else {
+
     }
 });
 
+//logout functionality
+btnlogOut.addEventListener('click', function (e) {
+    e.preventDefault();
+    clearInterval(timer);
+    tata.success(
+        'LogOut Successful ',
+        `See You Soon ${currentAccount.owner}`
+    );
+    logo.style.opacity = 100;
+    loginContainer.style.opacity = 100;
+    labelWelcome.textContent = `Log in to get started`;
+    containerApp.style.opacity = 0;
+    footer.classList.add('hidden');
+
+
+
+})
 //Transfer Money
 
 btnTransfer.addEventListener('click', function (e) {
